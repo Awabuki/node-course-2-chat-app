@@ -25,15 +25,44 @@ io.on('connection', (socket) => {
 		  createdAt: Date.now()
 		});*/
 
-	socket.on('createMessage', (message) => {
+
+	
+		// Challenge:
+		//socket.emit - emit to user who jointed from Admin, text Welcome to the chat app
+		// socket.broadcast.emit - from Admin, text: new user joined
 		
-		console.log('createMessage:', message);
-		io.emit('newMessage', {
-			from: message.from,
-			text: message.text,
+		socket.emit('newMessage', {
+			from: 'Admin',
+			text: 'Welcome to the chat app',
 			createdAt: new Date().getTime()
 		});
-	});
+		
+		socket.broadcast.emit('newMessage', {
+			from: 'Admin',
+			text: 'New user has joined the chat',
+			createdAt: new Date().getTime()
+		});
+		
+
+	socket.on('createMessage', (message) => {
+		console.log('createMessage:', message);
+			
+		// Send message to all conections in io
+		//~ io.emit('newMessage', {
+			//~ from: message.from,
+			//~ text: message.text,
+			//~ createdAt: new Date().getTime()
+		//~ });
+		
+	// send to everyone in io EXCEPT this socket (the one called using)
+	//~ socket.broadcast.emit('newMessage', {
+			//~ from: message.from,
+			//~ text: message.text,
+			//~ createdAt: new Date().getTime()
+		//~ });
+	});	
+		
+		
 	
 	
 	socket.on('disconnect', () => {
