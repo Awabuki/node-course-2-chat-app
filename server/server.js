@@ -15,6 +15,21 @@ app.use(express.static(publicPath));
 io.on('connection', (socket) => {
 	console.log('New user connected');
 	
+	// emit events on the socket. if custom, exactly the same as client
+	// second parameter is data to send. in this case, an object
+	
+	
+	socket.emit('newMessage', {
+		  from: 'mike@example.com',
+		  text: 'Whats going on?!',
+		  createdAt: Date.now()
+		});
+
+	socket.on('createMessage', (newMessage) => {
+		console.log('createMessage:', newMessage);
+	});
+	
+	
 	socket.on('disconnect', () => {
 		console.log('Client disconnected');
 		
