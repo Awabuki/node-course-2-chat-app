@@ -4,10 +4,10 @@ socket.on('connect', function() {
 	console.log('connected to server');
 	
 	// event name, then data.
-	socket.emit('createMessage', {
+	/*socket.emit('createMessage', {
 		from: 'guy@email.com',
 		text: 'random garbage text here'
-	});
+	});*/
 	
 });
 

@@ -19,14 +19,20 @@ io.on('connection', (socket) => {
 	// second parameter is data to send. in this case, an object
 	
 	
-	socket.emit('newMessage', {
+	/*socket.emit('newMessage', {
 		  from: 'mike@example.com',
 		  text: 'Whats going on?!',
 		  createdAt: Date.now()
-		});
+		});*/
 
-	socket.on('createMessage', (newMessage) => {
-		console.log('createMessage:', newMessage);
+	socket.on('createMessage', (message) => {
+		
+		console.log('createMessage:', message);
+		io.emit('newMessage', {
+			from: message.from,
+			text: message.text,
+			createdAt: new Date().getTime()
+		});
 	});
 	
 	
