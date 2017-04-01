@@ -38,11 +38,12 @@ io.on('connection', (socket) => {
 		socket.broadcast.emit('newMessage', generateMessage( 'Admin', 'New user joined' ) );
 		
 
-	socket.on('createMessage', (message) => {
+	socket.on('createMessage', (message, callback) => {  // callback sends event back to the front end
 		console.log('createMessage:', message);
 			
 		// Send message to all conections in io
 		io.emit('newMessage', generateMessage( message.from, message.text ) );
+		callback('This is fron the server.');
 		
 	// send to everyone in io EXCEPT this socket (the one called using)
 	//~ socket.broadcast.emit('newMessage', {

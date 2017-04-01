@@ -14,6 +14,10 @@ socket.on('connect', function() {
 
 socket.on('newMessage', function(message) {
 	console.log('newMessage', message);
+	var  li = jQuery('<li></li>');
+	li.text(`${message.from}: ${message.text}`);
+	
+	jQuery('#messages').append(li);
 });
 
 socket.on('disconnect', function() {
@@ -30,3 +34,22 @@ socket.on('disconnect', function() {
 //createdAt property added to message on the serv er.
 // print to console.
 // emit when connection starts.
+
+//~ socket.emit('createMessage', {
+	//~ from: 'Frank',
+	//~ text: 'Hi'
+//~ }, function(data) {  //callback function on awk
+	//~ console.log('got it', data);
+	//~ });
+
+// call jquery with event e
+jQuery('#message-form').on('submit', function(e) {
+	e.preventDefault();		// default is to submit form and put data in url
+	socket.emit('createMessage', {
+		from: 'User',
+		text: jQuery('[name=message]').val()
+	}, function() {
+		 
+	});
+	
+});
