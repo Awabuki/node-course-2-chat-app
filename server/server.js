@@ -43,7 +43,7 @@ io.on('connection', (socket) => {
 			
 		// Send message to all conections in io
 		io.emit('newMessage', generateMessage( message.from, message.text ) );
-		callback('This is fron the server.');
+		callback();
 		
 	// send to everyone in io EXCEPT this socket (the one called using)
 	//~ socket.broadcast.emit('newMessage', {
