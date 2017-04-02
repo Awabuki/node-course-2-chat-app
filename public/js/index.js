@@ -1,5 +1,26 @@
 var socket = io();  // init request from client to server, save conn in variable. extremely persistent. auto-reconnects
 
+function scrollToBottom () 
+{
+	// selectors
+	var messages = jQuery('#messages');  // just one
+	var newMessage = messages.children('li:last-child');  // last list item just added before our call
+	
+	// heights
+	var clientHeight = messages.prop('clientHeight');  // client height property
+	var scrollTop = messages.prop('scrollTop');
+	var scrollHeight = messages.prop('scrollHeight');
+	var newMessageHeight = newMessage.innerHeight();
+	var lastMessageHeight = newMessage.prev().innerHeight();
+	
+	if ( clientHeight + scrollTop + newMessageHeight + lastMessageHeight >= scrollHeight ) 
+	{
+		messages.scrollTop(scrollHeight);
+		
+	}
+	
+}
+
 socket.on('connect', function() {
 	console.log('connected to server');
 	
@@ -22,6 +43,7 @@ socket.on('newMessage', function(message) {
 		});
 	
 	jQuery('#messages').append(html);
+	scrollToBottom();
 	
 	//console.log('newMessage', message);
 	//~ var formattedTime = moment(message.createdAt).format('h:mm a');
@@ -42,6 +64,7 @@ socket.on('newLocationMessage', function(message) {
 		});
 	
 	jQuery('#messages').append(html);	
+	scrollToBottom();
 	
 	
 	//~ var  li = jQuery('<li></li>');
