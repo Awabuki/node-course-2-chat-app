@@ -4,6 +4,7 @@ function scrollToBottom ()
 {
 	// selectors
 	var messages = jQuery('#messages');  // just one
+	console.log(messages);
 	var newMessage = messages.children('li:last-child');  // last list item just added before our call
 	
 	// heights
@@ -15,7 +16,7 @@ function scrollToBottom ()
 	
 	if ( clientHeight + scrollTop + newMessageHeight + lastMessageHeight >= scrollHeight ) 
 	{
-		messages.scrollTop(scrollHeight);
+		messages.scrollTop(scrollHeight);  // set top to height
 		
 	}
 	
