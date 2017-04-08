@@ -71,10 +71,15 @@ io.on('connection', (socket) => {
 
 
 	socket.on('createMessage', (message, callback) => {  // callback sends event back to the front end
-		console.log('createMessage:', message);
+		//console.log('createMessage:', message);
+		var user = users.getUser(socket.id);	
+		
+		if ( user && isRealString(message.text) ) {
+			io.to(user.room).emit('newMessage', generateMessage( user.name, message.text ) );	
 			
+		}
 		// Send message to all conections in io
-		io.emit('newMessage', generateMessage( message.from, message.text ) );
+		
 		callback();
 		
 	// send to everyone in io EXCEPT this socket (the one called using)
@@ -86,8 +91,12 @@ io.on('connection', (socket) => {
 	});	
 		
 socket.on('createLocationMessage', (coords) => {
-	//io.emit('newMessage', generateMessage('Admin', `${coords.latitude}, ${coords.longitude}`));
-	io.emit('newLocationMessage', generateLocationMessage('Admin', coords.latitude, coords.longitude));
+	var user = users.getUser(socket.id);	
+	if ( user ) {
+		//io.emit('newMessage', generateMessage('Admin', `${coords.latitude}, ${coords.longitude}`));
+		io.to(user.room).emit('newLocationMessage', generateLocationMessage(user.name, coords.latitude, coords.longitude));
+		
+	}
 	
 	
 });		
